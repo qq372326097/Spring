@@ -1,0 +1,38 @@
+传统的配置式开发在xml中注册bean
+1.注册bean
+<bean class="com.yantang.Person" id="Person">
+        <property name="name" value="张三"></property>
+        <property name="id" value="18"></property>
+</bean>
+2.包扫描
+<!--包扫描它可以在类路径下寻找标注了@Component、@Service、@Controller、@Repository注解的类，并把这些类纳入进Spring容器中管理。它的作用和在xml文件中使用bean配置组件是一样的。-->
+<contest:component-scan base-package="com.yantang"></contest:component-scan>
+
+3、在代码中通过读取XML的配置来使用
+ApplicationContext applicationContext = new ClassPathXmlApplicationContext("bean.xml");//传配置的XML
+Person bean = (Person)applicationContext.getBean("Person");
+------------------------------------------------------------------------------------------------------------------------
+Spring注解开发
+1、读取配置类的形式来注册bean
+@Configuration //该注解标注后告诉Spring这是一个配置类相当于读取bean.xml
+public class MainConfig {
+    @Bean //该注解就是注册bean相当于bean.xml；
+    public Person person(){
+        return new Person(15,"李四");
+    }
+}
+2、包扫描
+/**
+ * 相当于XML中的<context:component-scan base-package="com.yantang" />标签，JDK1.8可以重复出现，指定不同的扫描规则
+ * value指定要扫面的包
+ * useDefaultFilters关闭自动扫描
+ * excludeFilters指定不扫描那些
+ * includeFilters指定扫描包含的
+ *
+ */
+@ComponentScan(value = "com.yantang",useDefaultFilters = false,includeFilters =  {
+        @ComponentScan.Filter(type = FilterType.ANNOTATION,value = {Repository.class})
+})
+3、在代码中通过读取配置类来使用
+ApplicationContext applicationContext = new AnnotationConfigApplicationContext(MainConfig.class);//传入配置类
+Person bean = applicationContext.getBean(Person.class);

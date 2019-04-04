@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:contest="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+    <!--包扫描它可以在类路径下寻找标注了@Component、@Service、@Controller、@Repository注解的类，并把这些类纳入进Spring容器中管理。它的作用和在xml文件中使用bean配置组件是一样的。-->
+    <contest:component-scan base-package="com.yantang"></contest:component-scan>
+    <!--通常注册bean是以XML的形式-->
+    <bean class="com.yantang.Person" id="Person">
+        <property name="name" value="张三"></property>
+        <property name="id" value="18"></property>
+    </bean>
+</beans>
